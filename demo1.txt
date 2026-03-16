@@ -1,0 +1,92 @@
+2024-03-15 08:00:01 INFO  [app-server-01] [SystemMonitor] System startup complete. All services nominal.
+2024-03-15 08:00:05 INFO  [app-server-01] [AppService] Application service started successfully on port 8080.
+2024-03-15 08:00:06 INFO  [app-server-01] [DBConnector] Database connection established. Host: db-primary-01:5432
+2024-03-15 08:00:07 INFO  [app-server-01] [CacheManager] Redis cache connected. Host: cache-01:6379
+2024-03-15 08:00:10 INFO  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=61% free=152GB total=400GB
+2024-03-15 08:05:00 INFO  [app-server-01] [AppService] Processed 120 requests. Avg response time: 45ms
+2024-03-15 08:10:00 INFO  [app-server-01] [AppService] Processed 118 requests. Avg response time: 46ms
+2024-03-15 08:15:00 INFO  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=63% free=148GB total=400GB
+2024-03-15 08:20:00 INFO  [app-server-01] [AppService] Processed 125 requests. Avg response time: 44ms
+2024-03-15 08:25:00 INFO  [app-server-01] [LogRotator] Log rotation started for /var/log/app/*.log
+2024-03-15 08:25:02 INFO  [app-server-01] [LogRotator] Rotated 3 log files. Space reclaimed: 200MB
+2024-03-15 08:30:00 INFO  [app-server-01] [AppService] Processed 130 requests. Avg response time: 43ms
+2024-03-15 08:30:01 INFO  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=65% free=140GB total=400GB
+2024-03-15 08:35:00 INFO  [app-server-01] [AppService] Processed 128 requests. Avg response time: 47ms
+2024-03-15 08:40:00 INFO  [app-server-01] [AppService] Processed 135 requests. Avg response time: 45ms
+2024-03-15 08:40:01 WARN  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=75% free=100GB total=400GB WARNING: Disk usage above 70% threshold
+2024-03-15 08:40:02 INFO  [app-server-01] [AlertManager] WARN alert sent to ops-channel: disk usage 75% on app-server-01
+2024-03-15 08:45:00 INFO  [app-server-01] [AppService] Processed 132 requests. Avg response time: 48ms
+2024-03-15 08:45:30 INFO  [app-server-01] [CoreDumpService] Core dump detected for PID 4421. Writing to /var/core/app_dump_4421.core. Size: 1.2GB
+2024-03-15 08:45:45 INFO  [app-server-01] [CoreDumpService] Core dump write complete: /var/core/app_dump_4421.core
+2024-03-15 08:46:00 INFO  [app-server-01] [AppService] Processed 140 requests. Avg response time: 46ms
+2024-03-15 08:46:10 INFO  [app-server-01] [CoreDumpService] Core dump detected for PID 4422. Writing to /var/core/app_dump_4422.core. Size: 1.4GB
+2024-03-15 08:46:25 INFO  [app-server-01] [CoreDumpService] Core dump write complete: /var/core/app_dump_4422.core
+2024-03-15 08:47:00 WARN  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=83% free=68GB total=400GB WARNING: Disk usage rapidly increasing
+2024-03-15 08:47:15 INFO  [app-server-01] [CoreDumpService] Core dump detected for PID 4430. Writing to /var/core/app_dump_4430.core. Size: 1.3GB
+2024-03-15 08:47:30 INFO  [app-server-01] [CoreDumpService] Core dump write complete: /var/core/app_dump_4430.core
+2024-03-15 08:48:00 INFO  [app-server-01] [AppService] Processed 138 requests. Avg response time: 52ms
+2024-03-15 08:50:00 WARN  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=90% free=40GB total=400GB CRITICAL: Disk critically low
+2024-03-15 08:50:01 ERROR [app-server-01] [AlertManager] CRITICAL alert sent to ops-channel: disk usage 90% on app-server-01
+2024-03-15 08:51:00 INFO  [app-server-01] [AppService] Processed 141 requests. Avg response time: 55ms
+2024-03-15 08:51:45 INFO  [app-server-01] [CoreDumpService] Core dump detected for PID 4450. Writing to /var/core/app_dump_4450.core. Size: 1.5GB
+2024-03-15 08:52:00 ERROR [app-server-01] [CoreDumpService] FAILED to write core dump for PID 4450: No space left on device (errno: ENOSPC)
+2024-03-15 08:52:01 ERROR [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=99% free=2GB total=400GB FATAL: Disk nearly full
+2024-03-15 08:52:02 ERROR [app-server-01] [FileWriter] Failed to write application log: /var/log/app/app.log: No space left on device
+2024-03-15 08:52:03 ERROR [app-server-01] [FileWriter] Failed to write audit log: /var/log/app/audit.log: No space left on device
+2024-03-15 08:52:04 ERROR [app-server-01] [DBConnector] Failed to write WAL segment: /var/lib/pgsql/pg_wal/00000001000000000001: No space left on device
+2024-03-15 08:52:05 ERROR [app-server-01] [SessionManager] Cannot persist session data to disk. Disk full.
+2024-03-15 08:52:06 ERROR [app-server-01] [AppService] Request handler failed: unable to create temp file in /tmp: No space left on device
+2024-03-15 08:52:07 ERROR [app-server-01] [AppService] Request handler failed: unable to create temp file in /tmp: No space left on device
+2024-03-15 08:52:08 ERROR [app-server-01] [AppService] Request handler failed: unable to create temp file in /tmp: No space left on device
+2024-03-15 08:52:09 FATAL [app-server-01] [AppService] Application cannot continue. Critical I/O operations failing due to full disk. Initiating emergency shutdown.
+2024-03-15 08:52:10 FATAL [app-server-01] [AppService] Service terminated. PID 4400 exited with code 1.
+2024-03-15 08:52:11 ERROR [app-server-01] [ProcessManager] AppService (PID 4400) has exited unexpectedly. Attempting restart #1...
+2024-03-15 08:52:15 ERROR [app-server-01] [AppService] Startup failed: Unable to write PID file /var/run/app/app.pid: No space left on device
+2024-03-15 08:52:15 ERROR [app-server-01] [ProcessManager] AppService restart #1 FAILED. Will retry in 30 seconds.
+2024-03-15 08:52:16 ERROR [app-server-01] [HealthCheck] HTTP health check on port 8080 returned: Connection refused
+2024-03-15 08:52:17 ERROR [app-server-01] [LoadBalancer] Upstream app-server-01:8080 is DOWN. Removing from pool.
+2024-03-15 08:52:20 ERROR [app-server-01] [DBConnector] Lost database connection. PostgreSQL process died: No space left on device on WAL write.
+2024-03-15 08:52:45 ERROR [app-server-01] [ProcessManager] Retrying AppService restart #2...
+2024-03-15 08:52:49 ERROR [app-server-01] [AppService] Startup failed: Unable to create log directory /var/log/app/: No space left on device
+2024-03-15 08:52:49 ERROR [app-server-01] [ProcessManager] AppService restart #2 FAILED. Will retry in 60 seconds.
+2024-03-15 08:53:00 ERROR [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=100% free=0B total=400GB FATAL: Disk completely full
+2024-03-15 08:53:01 ERROR [app-server-01] [SystemMonitor] DISK FULL ALERT: /dev/sda1 has 0 bytes remaining. Multiple services impacted.
+2024-03-15 08:53:02 ERROR [app-server-01] [AlertManager] PagerDuty incident created: INC-20240315-001 - DISK FULL on app-server-01
+2024-03-15 08:53:03 ERROR [app-server-01] [CacheManager] Redis unable to perform RDB snapshot: write error on DB file /var/redis/dump.rdb: No space left on device
+2024-03-15 08:53:04 ERROR [app-server-01] [CacheManager] Redis is now running in degraded mode (no persistence). Data loss risk is HIGH.
+2024-03-15 08:53:49 ERROR [app-server-01] [ProcessManager] Retrying AppService restart #3...
+2024-03-15 08:53:53 ERROR [app-server-01] [AppService] Startup failed: Unable to write PID file /var/run/app/app.pid: No space left on device
+2024-03-15 08:53:53 ERROR [app-server-01] [ProcessManager] AppService restart #3 FAILED. Max retries reached. Service is DOWN.
+2024-03-15 08:54:00 ERROR [app-server-01] [SystemMonitor] CRITICAL: AppService has failed all restart attempts. System stability compromised.
+2024-03-15 08:54:01 ERROR [app-server-01] [Nginx] 502 Bad Gateway: upstream connect error or disconnect/reset while connecting. No healthy upstream.
+2024-03-15 08:54:02 ERROR [app-server-01] [Nginx] 502 Bad Gateway: upstream connect error or disconnect/reset while connecting. No healthy upstream.
+2024-03-15 08:54:03 ERROR [app-server-01] [Nginx] 502 Bad Gateway: upstream connect error or disconnect/reset while connecting. No healthy upstream.
+2024-03-15 08:54:04 ERROR [app-server-01] [Nginx] 502 Bad Gateway: upstream connect error or disconnect/reset while connecting. No healthy upstream.
+2024-03-15 08:54:10 ERROR [app-server-01] [Nginx] 502 Bad Gateway: upstream connect error or disconnect/reset while connecting. No healthy upstream.
+2024-03-15 09:00:00 INFO  [app-server-01] [OpsTeam] Manual intervention: Engineer logged into app-server-01 via SSH. User: sre-admin
+2024-03-15 09:00:05 INFO  [app-server-01] [OpsTeam] Running: df -h /dev/sda1
+2024-03-15 09:00:06 INFO  [app-server-01] [OpsTeam] Output: Filesystem Size Used Avail Use% /dev/sda1 400G 400G 0 100% /
+2024-03-15 09:00:10 INFO  [app-server-01] [OpsTeam] Running: du -sh /var/core/*
+2024-03-15 09:00:11 INFO  [app-server-01] [OpsTeam] Output: /var/core/app_dump_4421.core 1.2G; /var/core/app_dump_4422.core 1.4G; /var/core/app_dump_4430.core 1.3G
+2024-03-15 09:00:15 INFO  [app-server-01] [OpsTeam] Running: du -sh /var/log/*
+2024-03-15 09:00:16 INFO  [app-server-01] [OpsTeam] Output: /var/log/app 78G; /var/log/nginx 45G; /var/log/syslog 12G
+2024-03-15 09:01:00 INFO  [app-server-01] [OpsTeam] Deleting stale core dumps: rm -rf /var/core/*.core
+2024-03-15 09:01:05 INFO  [app-server-01] [OpsTeam] Freed 3.9GB from core dump deletion.
+2024-03-15 09:01:10 INFO  [app-server-01] [OpsTeam] Clearing old logs: find /var/log/app -name "*.log.*" -mtime +7 -delete
+2024-03-15 09:01:45 INFO  [app-server-01] [OpsTeam] Freed 65GB from old log deletion.
+2024-03-15 09:02:00 INFO  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=17% free=332GB total=400GB OK
+2024-03-15 09:02:01 INFO  [app-server-01] [ProcessManager] Restarting AppService...
+2024-03-15 09:02:05 INFO  [app-server-01] [AppService] Application service started successfully on port 8080.
+2024-03-15 09:02:06 INFO  [app-server-01] [DBConnector] Database connection established. Host: db-primary-01:5432
+2024-03-15 09:02:07 INFO  [app-server-01] [CacheManager] Redis cache connected. Host: cache-01:6379
+2024-03-15 09:02:10 INFO  [app-server-01] [HealthCheck] HTTP health check on port 8080 returned: 200 OK
+2024-03-15 09:02:11 INFO  [app-server-01] [LoadBalancer] Upstream app-server-01:8080 is UP. Adding back to pool.
+2024-03-15 09:02:15 INFO  [app-server-01] [AppService] Processed 10 requests. Avg response time: 44ms
+2024-03-15 09:02:20 INFO  [app-server-01] [AlertManager] PagerDuty incident INC-20240315-001 resolved.
+2024-03-15 09:05:00 INFO  [app-server-01] [AppService] Processed 120 requests. Avg response time: 45ms
+2024-03-15 09:10:00 INFO  [app-server-01] [AppService] Processed 125 requests. Avg response time: 44ms
+2024-03-15 09:15:00 INFO  [app-server-01] [DiskMonitor] Disk usage check: /dev/sda1 mount=/ usage=18% free=328GB total=400GB OK
+2024-03-15 09:20:00 INFO  [app-server-01] [AppService] Processed 130 requests. Avg response time: 45ms
+2024-03-15 09:25:00 INFO  [app-server-01] [AppService] Processed 128 requests. Avg response time: 44ms
+2024-03-15 09:30:00 INFO  [app-server-01] [SystemMonitor] System fully recovered. All services nominal.
+ 

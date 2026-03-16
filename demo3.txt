@@ -1,0 +1,111 @@
+2024-05-22 02:00:00 INFO  [k8s-node-02]        [Kubelet] Node kubelet started. Memory: 64GB, CPU: 32 cores.
+2024-05-22 02:00:01 INFO  [auth-service]        [Startup] AuthService v3.1.0 started. JWT signing key loaded from Vault. TokenTTL: 3600s
+2024-05-22 02:00:02 INFO  [payment-service]     [Startup] PaymentService v2.0.3 started. Pod: payment-v2-pod-1. Memory limit: 512Mi
+2024-05-22 02:00:03 INFO  [inventory-service]   [Startup] InventoryService v1.7.2 started. All nominal.
+2024-05-22 02:00:04 INFO  [notification-service][Startup] NotificationService v1.2.1 started. Email/SMS queue connected.
+2024-05-22 02:00:05 INFO  [api-gateway]         [Startup] API Gateway started. JWT validation enabled. JWKS endpoint: http://auth-service/jwks
+2024-05-22 02:00:10 INFO  [api-gateway]         [HealthCheck] All upstreams healthy: auth, payment, inventory, notification.
+2024-05-22 02:05:00 INFO  [api-gateway]         [Metrics] RPS: 420 | p99 latency: 38ms | Error rate: 0.0%
+2024-05-22 02:10:00 INFO  [api-gateway]         [Metrics] RPS: 415 | p99 latency: 40ms | Error rate: 0.0%
+2024-05-22 02:15:00 INFO  [payment-service]     [Metrics] Transactions processed: 312 | Avg processing time: 145ms | Heap: 380Mi/512Mi
+2024-05-22 02:20:00 INFO  [api-gateway]         [Metrics] RPS: 422 | p99 latency: 39ms | Error rate: 0.0%
+2024-05-22 02:25:00 INFO  [deploy-pipeline]     [Helm] Deploying helm chart update: payment-service chart v2.0.3 -> v2.0.4. Diff: resource.limits.memory 512Mi -> 128Mi (cost optimization)
+2024-05-22 02:25:30 INFO  [deploy-pipeline]     [Helm] Helm upgrade payment-service complete. Pods rolling restart.
+2024-05-22 02:25:35 INFO  [payment-service]     [Startup] PaymentService v2.0.4 started. Pod: payment-v2-pod-2. Memory limit: 128Mi
+2024-05-22 02:25:40 INFO  [payment-service]     [Startup] PaymentService v2.0.4 started. Pod: payment-v2-pod-3. Memory limit: 128Mi
+2024-05-22 02:25:45 INFO  [api-gateway]         [HealthCheck] payment-service pods restarted. Health checks passing.
+2024-05-22 02:30:00 INFO  [payment-service]     [Metrics] Transactions processed: 298 | Avg processing time: 148ms | Heap: 110Mi/128Mi
+2024-05-22 02:35:00 WARN  [payment-service]     [Memory] Heap usage HIGH: 122Mi/128Mi (95%). GC pressure increasing.
+2024-05-22 02:35:05 WARN  [payment-service]     [Memory] GC pause time: 340ms. Throughput degrading.
+2024-05-22 02:35:10 WARN  [payment-service]     [JWTSigner] JWT token signing taking longer than expected: 280ms (SLA: 50ms). Likely due to GC pressure.
+2024-05-22 02:35:30 ERROR [payment-service]     [Memory] Heap usage CRITICAL: 127Mi/128Mi (99%). OOM imminent.
+2024-05-22 02:35:31 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-2 exceeded memory limit 128Mi. Killing PID 8821.
+2024-05-22 02:35:32 INFO  [k8s-node-02]         [Kubelet] Restarting container payment-v2-pod-2. Restart count: 1
+2024-05-22 02:35:35 INFO  [payment-service]     [Startup] PaymentService v2.0.4 started. Pod: payment-v2-pod-2. Restart#1 Memory limit: 128Mi
+2024-05-22 02:35:40 INFO  [payment-service]     [JWTSigner] JWT token signing service initialized. Pending requests: 14
+2024-05-22 02:35:50 WARN  [payment-service]     [Memory] Heap usage HIGH: 118Mi/128Mi (92%). Already under pressure on restart.
+2024-05-22 02:36:00 WARN  [network-monitor]     [BGP] BGP route flap detected on uplink-router-01. Duration: 1.2 seconds. (RED HERRING - transient, no impact)
+2024-05-22 02:36:05 ERROR [payment-service]     [Memory] Heap usage CRITICAL: 127Mi/128Mi (99%). OOM imminent.
+2024-05-22 02:36:06 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-2 exceeded memory limit 128Mi. Killing PID 8904.
+2024-05-22 02:36:07 INFO  [k8s-node-02]         [Kubelet] Restarting container payment-v2-pod-2. Restart count: 2
+2024-05-22 02:36:10 WARN  [k8s-node-02]         [Kubelet] CrashLoopBackOff warning: payment-v2-pod-2 has restarted 2 times in 60 seconds.
+2024-05-22 02:36:11 WARN  [auth-service]        [TokenRenewer] JWT renewal requests for payment-service are failing: Connection refused (payment-service is restarting)
+2024-05-22 02:36:12 WARN  [auth-service]        [TokenRenewer] 14 pending JWT renewal requests queued for payment-service.
+2024-05-22 02:36:50 INFO  [payment-service]     [Startup] PaymentService v2.0.4 started. Pod: payment-v2-pod-2. Restart#2 Memory limit: 128Mi
+2024-05-22 02:37:10 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-2 exceeded memory limit 128Mi. Killing PID 9012. Restart count: 3
+2024-05-22 02:37:11 ERROR [k8s-node-02]         [Kubelet] CrashLoopBackOff: payment-v2-pod-2 is in CrashLoopBackOff. Will delay restart by 10 seconds (backoff).
+2024-05-22 02:37:15 WARN  [vault]               [TokenLease] Lease for payment-service JWT signing key expiring in 600s. Renewal request failed: service unavailable.
+2024-05-22 02:37:20 WARN  [auth-service]        [JWKSCache] Failed to refresh JWKS from payment-service signing endpoint. Using cached JWKS (age: 7 min, TTL: 15 min).
+2024-05-22 02:38:00 INFO  [firewall-logs]       [AccessLog] Inbound connection from 185.220.101.47:54312 to api-gateway:443. User-Agent: python-requests/2.28.0 (RED HERRING - Tor exit node, but no auth breach)
+2024-05-22 02:38:00 WARN  [api-gateway]         [Security] Suspicious IP 185.220.101.47 flagged by threat intel. Connection logged but allowed (rate limit not breached).
+2024-05-22 02:38:30 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-3 exceeded memory limit 128Mi. Killing PID 9201. Restart count: 1
+2024-05-22 02:38:31 WARN  [api-gateway]         [Metrics] payment-service 502 rate: 12%. (Pods crashing mid-request)
+2024-05-22 02:39:00 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-2 exceeded memory limit 128Mi. Killing PID 9230. Restart count: 4
+2024-05-22 02:39:01 ERROR [k8s-node-02]         [Kubelet] CrashLoopBackOff: payment-v2-pod-2. Delay: 20s (exponential backoff).
+2024-05-22 02:39:30 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-3 exceeded memory limit 128Mi. Killing PID 9310. Restart count: 2
+2024-05-22 02:40:00 WARN  [vault]               [TokenLease] Lease for payment-service JWT signing key expiring in 300s. Cannot renew — service is in CrashLoopBackOff.
+2024-05-22 02:40:01 ERROR [auth-service]        [JWKSCache] JWKS cache for payment-service signing key will expire in 5 minutes. No successful refresh since 02:32.
+2024-05-22 02:40:30 WARN  [tls-monitor]         [CertCheck] TLS certificate for *.internal.example.com expires in 14 days. (RED HERRING - routine expiry warning, not related)
+2024-05-22 02:41:00 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-2 exceeded memory limit 128Mi. Restart count: 5
+2024-05-22 02:41:01 ERROR [k8s-node-02]         [Kubelet] CrashLoopBackOff: payment-v2-pod-2. Delay: 40s (exponential backoff).
+2024-05-22 02:41:30 ERROR [k8s-node-02]         [Kubelet] OOMKill: Container payment-v2-pod-3 exceeded memory limit 128Mi. Restart count: 3
+2024-05-22 02:42:00 ERROR [vault]               [TokenLease] Lease for payment-service JWT signing key EXPIRED. Key no longer available to sign new tokens.
+2024-05-22 02:42:01 ERROR [auth-service]        [JWKSCache] JWKS cache EXPIRED for key_id=pmt-signing-key-v3. Removing from active keyring.
+2024-05-22 02:42:05 WARN  [auth-service]        [TokenValidator] Tokens signed with key_id=pmt-signing-key-v3 will now fail validation (key evicted from JWKS).
+2024-05-22 02:42:10 ERROR [api-gateway]         [JWTMiddleware] Token validation failed for request to /api/v1/payments/initiate: unknown kid=pmt-signing-key-v3
+2024-05-22 02:42:10 ERROR [api-gateway]         [Router] 401 Unauthorized: /api/v1/payments/initiate
+2024-05-22 02:42:11 ERROR [api-gateway]         [JWTMiddleware] Token validation failed for request to /api/v1/inventory/reserve: unknown kid=pmt-signing-key-v3
+2024-05-22 02:42:11 ERROR [api-gateway]         [Router] 401 Unauthorized: /api/v1/inventory/reserve
+2024-05-22 02:42:12 ERROR [api-gateway]         [JWTMiddleware] Token validation failed for request to /api/v1/notifications/send: unknown kid=pmt-signing-key-v3
+2024-05-22 02:42:12 ERROR [api-gateway]         [Router] 401 Unauthorized: /api/v1/notifications/send
+2024-05-22 02:42:15 ERROR [inventory-service]   [OrderFulfillment] Payment confirmation not received for order ORD-88291. Abandoning fulfillment.
+2024-05-22 02:42:16 ERROR [notification-service][EmailDispatcher] Failed to send order confirmation email for ORD-88291: upstream auth failure.
+2024-05-22 02:42:20 ERROR [api-gateway]         [Metrics] 401 error rate: 34% and rising.
+2024-05-22 02:42:30 ERROR [api-gateway]         [JWTMiddleware] Token validation failed for request to /api/v1/payments/status: unknown kid=pmt-signing-key-v3
+2024-05-22 02:42:31 ERROR [api-gateway]         [JWTMiddleware] Token validation failed for request to /api/v1/payments/refund: unknown kid=pmt-signing-key-v3
+2024-05-22 02:42:35 ERROR [api-gateway]         [Metrics] 401 error rate: 61%.
+2024-05-22 02:42:40 ERROR [auth-service]        [Alerts] CRITICAL: Token validation failure rate 61%. Possible JWT key rotation event or security breach. Paging on-call.
+2024-05-22 02:42:41 ERROR [api-gateway]         [AlertManager] PagerDuty incident created: INC-20240522-003 - Mass 401 Unauthorized errors. Possible security incident.
+2024-05-22 02:43:00 ERROR [api-gateway]         [Metrics] 401 error rate: 79%. System severely degraded.
+2024-05-22 02:43:01 ERROR [api-gateway]         [JWTMiddleware] Token validation failed: unknown kid=pmt-signing-key-v3 (repeated for 312 requests in last 60s)
+2024-05-22 02:43:10 ERROR [inventory-service]   [StockManager] 18 fulfillment orders stuck. Cannot confirm payment tokens. Inventory hold releasing in 5 min.
+2024-05-22 02:43:15 ERROR [notification-service][SMSDispatcher] 23 SMS notifications queued but blocked by auth failure.
+2024-05-22 02:43:30 ERROR [api-gateway]         [Metrics] 401 error rate: 89%. Almost all authenticated routes failing.
+2024-05-22 02:44:00 INFO  [ops-team]            [Incident] Security team + on-call SRE paged for INC-20240522-003. Initial hypothesis: JWT key rotation without rollout, or active attack.
+2024-05-22 02:45:00 INFO  [ops-team]            [Investigation] Checked auth-service logs. No planned key rotation scheduled tonight.
+2024-05-22 02:46:00 INFO  [ops-team]            [Investigation] Reviewed firewall logs. Suspicious IP 185.220.101.47 flagged but rate limits not breached. Discounting attack vector.
+2024-05-22 02:47:00 INFO  [ops-team]            [Investigation] Searched for kid=pmt-signing-key-v3 in Vault. Found: key lease EXPIRED at 02:42. Last renewal attempt: 02:37 FAILED.
+2024-05-22 02:47:30 INFO  [ops-team]            [Investigation] Searched Vault renewal failure cause. Found: payment-service was in CrashLoopBackOff during renewal window (02:36 - ongoing).
+2024-05-22 02:48:00 INFO  [ops-team]            [Investigation] Checked k8s events for payment-service: OOMKill count=7, CrashLoopBackOff active. Memory limit: 128Mi.
+2024-05-22 02:48:10 INFO  [ops-team]            [Investigation] Checked Helm history: helm upgrade payment-service at 02:25 changed memory.limit from 512Mi to 128Mi.
+2024-05-22 02:48:30 INFO  [ops-team]            [RootCause] CONFIRMED: Helm chart memory limit reduction (512Mi→128Mi) caused OOMKill loop. OOMKills prevented JWT signing key lease renewal in Vault. Key expired, evicted from JWKS → mass 401s.
+2024-05-22 02:50:00 INFO  [ops-team]            [Remediation] Rolling back Helm chart: helm rollback payment-service 1
+2024-05-22 02:50:20 INFO  [deploy-pipeline]     [Helm] Helm rollback payment-service to v2.0.3 complete. Memory limit restored: 128Mi -> 512Mi
+2024-05-22 02:50:25 INFO  [payment-service]     [Startup] PaymentService v2.0.3 started. Pod: payment-v2-pod-2. Memory limit: 512Mi Restart#0
+2024-05-22 02:50:26 INFO  [payment-service]     [Startup] PaymentService v2.0.3 started. Pod: payment-v2-pod-3. Memory limit: 512Mi Restart#0
+2024-05-22 02:50:30 INFO  [payment-service]     [Memory] Heap usage: 380Mi/512Mi (74%). Stable.
+2024-05-22 02:50:35 INFO  [payment-service]     [JWTSigner] JWT token signing service initialized. Signing key lease renewed from Vault.
+2024-05-22 02:50:36 INFO  [vault]               [TokenLease] New lease issued for payment-service JWT signing key. key_id=pmt-signing-key-v4. TTL: 3600s
+2024-05-22 02:50:40 INFO  [auth-service]        [JWKSCache] New JWKS entry added: key_id=pmt-signing-key-v4. Cache refreshed.
+2024-05-22 02:50:45 INFO  [auth-service]        [TokenValidator] Tokens signed with key_id=pmt-signing-key-v4 are now valid.
+2024-05-22 02:51:00 INFO  [api-gateway]         [JWTMiddleware] Token validation succeeded for /api/v1/payments/initiate (kid=pmt-signing-key-v4)
+2024-05-22 02:51:01 INFO  [api-gateway]         [Metrics] 401 error rate: 41% (dropping as new tokens are issued)
+2024-05-22 02:52:00 INFO  [api-gateway]         [Metrics] 401 error rate: 12%
+2024-05-22 02:53:00 INFO  [api-gateway]         [Metrics] 401 error rate: 2% (residual stale tokens expiring)
+2024-05-22 02:54:00 INFO  [api-gateway]         [Metrics] 401 error rate: 0.1% | RPS: 418 | p99 latency: 40ms
+2024-05-22 02:54:01 INFO  [api-gateway]         [HealthCheck] All upstreams healthy.
+2024-05-22 02:55:00 INFO  [inventory-service]   [OrderFulfillment] Stuck fulfillment orders released. Processing resumed. 18 orders re-queued.
+2024-05-22 02:55:05 INFO  [notification-service][EmailDispatcher] 23 queued notifications delivered successfully.
+2024-05-22 02:56:00 INFO  [ops-team]            [Incident] INC-20240522-003 mitigated. Duration: 14 minutes of mass 401 errors.
+2024-05-22 02:56:01 INFO  [api-gateway]         [AlertManager] PagerDuty incident INC-20240522-003 resolved.
+2024-05-22 03:00:00 INFO  [api-gateway]         [Metrics] RPS: 422 | p99 latency: 39ms | Error rate: 0.0%
+2024-05-22 03:30:00 INFO  [api-gateway]         [Metrics] RPS: 418 | p99 latency: 38ms | Error rate: 0.0%
+2024-05-22 04:00:00 INFO  [k8s-node-02]         [Kubelet] All pods healthy. payment-v2-pod-2: Running (0 restarts). payment-v2-pod-3: Running (0 restarts).
+2024-05-22 04:30:00 INFO  [api-gateway]         [Metrics] RPS: 419 | p99 latency: 40ms | Error rate: 0.0%
+2024-05-22 05:00:00 INFO  [vault]               [TokenLease] Lease for payment-service JWT signing key renewed successfully. key_id=pmt-signing-key-v4. TTL extended: 3600s.
+2024-05-22 05:30:00 INFO  [api-gateway]         [Metrics] RPS: 420 | p99 latency: 39ms | Error rate: 0.0%
+2024-05-22 06:00:00 INFO  [ops-team]            [PostMortem] Post-mortem created. Root cause: memory limit misconfiguration in Helm chart.
+2024-05-22 06:00:01 INFO  [ops-team]            [JIRA] JIRA-5120 created: Add memory profiling gate to Helm chart CI/CD pipeline.
+2024-05-22 06:00:02 INFO  [ops-team]            [JIRA] JIRA-5121 created: Alert on CrashLoopBackOff before Vault lease expiry window.
+2024-05-22 06:45:00 INFO  [ops-team]            [PostMortem] Post-mortem review complete. Three action items assigned. System stable.
+ 

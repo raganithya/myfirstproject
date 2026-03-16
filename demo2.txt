@@ -1,0 +1,92 @@
+2024-04-10 14:00:00 INFO  [api-gateway]     [Router] API Gateway started. Listening on :443
+2024-04-10 14:00:01 INFO  [order-service]   [Startup] OrderService v2.4.1 started. DB pool size: 20, timeout: 30s
+2024-04-10 14:00:01 INFO  [user-service]    [Startup] UserService v1.9.0 started. DB pool size: 10, timeout: 30s
+2024-04-10 14:00:02 INFO  [db-primary-01]   [Postgres] PostgreSQL 14.2 started. max_connections=200
+2024-04-10 14:00:03 INFO  [order-service]   [DBPool] Connection pool initialized. Active: 0/20 Idle: 20/20
+2024-04-10 14:00:03 INFO  [user-service]    [DBPool] Connection pool initialized. Active: 0/10 Idle: 10/10
+2024-04-10 14:00:05 INFO  [api-gateway]     [HealthCheck] All upstream services healthy.
+2024-04-10 14:05:00 INFO  [order-service]   [Metrics] Requests: 340/min | DB pool Active: 3/20 | Avg query: 12ms
+2024-04-10 14:10:00 INFO  [order-service]   [Metrics] Requests: 355/min | DB pool Active: 4/20 | Avg query: 13ms
+2024-04-10 14:15:00 INFO  [user-service]    [Metrics] Requests: 210/min | DB pool Active: 2/10 | Avg query: 8ms
+2024-04-10 14:20:00 INFO  [order-service]   [Metrics] Requests: 360/min | DB pool Active: 4/20 | Avg query: 12ms
+2024-04-10 14:25:00 INFO  [db-primary-01]   [Postgres] Checkpoint complete. Pages written: 1240
+2024-04-10 14:30:00 INFO  [order-service]   [Metrics] Requests: 350/min | DB pool Active: 3/20 | Avg query: 13ms
+2024-04-10 14:30:00 INFO  [deploy-pipeline] [CI/CD] Starting deployment: schema-migration-v2.4.2 on db-primary-01
+2024-04-10 14:30:05 INFO  [deploy-pipeline] [Migration] Running migration: 20240410_add_orders_status_column.sql
+2024-04-10 14:30:07 INFO  [deploy-pipeline] [Migration] ALTER TABLE orders ADD COLUMN fulfillment_status VARCHAR(32) DEFAULT 'pending' - SUCCESS
+2024-04-10 14:30:09 INFO  [deploy-pipeline] [Migration] Running migration: 20240410_add_customer_tier_column.sql
+2024-04-10 14:30:11 INFO  [deploy-pipeline] [Migration] ALTER TABLE orders ADD COLUMN customer_tier VARCHAR(16) - SUCCESS
+2024-04-10 14:30:13 INFO  [deploy-pipeline] [Migration] Schema migration v2.4.2 complete. 2 migrations applied successfully.
+2024-04-10 14:30:14 WARN  [deploy-pipeline] [Migration] NOTE: Index creation for customer_tier skipped — deferred to post-deploy task JIRA-4892.
+2024-04-10 14:30:15 INFO  [order-service]   [Deploy] OrderService v2.4.2 deployment started. Rolling update: 0/3 pods updated.
+2024-04-10 14:31:00 INFO  [order-service]   [Deploy] OrderService v2.4.2 pod-1 healthy. Rolling update: 1/3 pods updated.
+2024-04-10 14:31:30 INFO  [order-service]   [Deploy] OrderService v2.4.2 pod-2 healthy. Rolling update: 2/3 pods updated.
+2024-04-10 14:32:00 INFO  [order-service]   [Deploy] OrderService v2.4.2 pod-3 healthy. Rolling update: 3/3 pods updated. Deployment complete.
+2024-04-10 14:32:05 INFO  [order-service]   [Startup] OrderService v2.4.2 started. DB pool size: 20, timeout: 30s
+2024-04-10 14:32:10 INFO  [order-service]   [Metrics] Requests: 360/min | DB pool Active: 4/20 | Avg query: 14ms
+2024-04-10 14:33:00 INFO  [order-service]   [Metrics] Requests: 362/min | DB pool Active: 5/20 | Avg query: 16ms
+2024-04-10 14:34:00 WARN  [order-service]   [Metrics] Requests: 365/min | DB pool Active: 8/20 | Avg query: 145ms WARN: Query time spike detected
+2024-04-10 14:34:01 WARN  [db-primary-01]   [SlowQuery] Duration: 143ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:34:15 WARN  [db-primary-01]   [SlowQuery] Duration: 151ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:34:30 WARN  [db-primary-01]   [SlowQuery] Duration: 168ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:34:45 WARN  [db-primary-01]   [SlowQuery] Duration: 189ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:35:00 WARN  [order-service]   [Metrics] Requests: 370/min | DB pool Active: 13/20 | Avg query: 210ms WARN: Pool utilization rising
+2024-04-10 14:35:01 WARN  [db-primary-01]   [Postgres] pg_stat_activity: 18 active queries waiting on sequential scan for table 'orders'. No index on customer_tier.
+2024-04-10 14:35:10 WARN  [db-primary-01]   [SlowQuery] Duration: 312ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:35:20 WARN  [db-primary-01]   [SlowQuery] Duration: 487ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:35:30 WARN  [db-primary-01]   [SlowQuery] Duration: 621ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:35:45 ERROR [order-service]   [DBPool] Connection pool utilization CRITICAL: Active: 18/20 | Waiting threads: 4
+2024-04-10 14:35:50 ERROR [db-primary-01]   [SlowQuery] Duration: 1204ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420
+2024-04-10 14:35:55 ERROR [order-service]   [DBPool] Connection pool EXHAUSTED. Active: 20/20 | Waiting threads: 11
+2024-04-10 14:35:56 ERROR [order-service]   [RequestHandler] GET /api/v1/orders?tier=gold: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:35:56 ERROR [api-gateway]     [Router] Upstream order-service returned 504 Gateway Timeout for GET /api/v1/orders
+2024-04-10 14:35:57 ERROR [order-service]   [RequestHandler] GET /api/v1/orders?tier=premium: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:35:57 ERROR [api-gateway]     [Router] Upstream order-service returned 504 Gateway Timeout for GET /api/v1/orders
+2024-04-10 14:35:58 ERROR [order-service]   [RequestHandler] POST /api/v1/orders/create: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:35:58 ERROR [api-gateway]     [Router] Upstream order-service returned 504 Gateway Timeout for POST /api/v1/orders/create
+2024-04-10 14:36:00 ERROR [order-service]   [DBPool] 15 threads waiting for connection. Pool has been exhausted for 5 seconds.
+2024-04-10 14:36:01 ERROR [order-service]   [RequestHandler] GET /api/v1/orders/history: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:36:01 ERROR [api-gateway]     [Router] Upstream order-service returned 504 Gateway Timeout for GET /api/v1/orders/history
+2024-04-10 14:36:05 ERROR [order-service]   [RequestHandler] GET /api/v1/orders?tier=silver: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:36:10 ERROR [order-service]   [RequestHandler] POST /api/v1/orders/cancel: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:36:15 ERROR [order-service]   [RequestHandler] GET /api/v1/orders/pending: Timed out waiting for DB connection after 30000ms
+2024-04-10 14:36:20 ERROR [api-gateway]     [CircuitBreaker] Circuit breaker OPENED for order-service. Failure rate: 78% over last 60s. Rejecting new requests.
+2024-04-10 14:36:21 ERROR [api-gateway]     [Router] Circuit breaker open: returning 503 Service Unavailable for all /api/v1/orders/* routes
+2024-04-10 14:36:22 ERROR [api-gateway]     [Router] 503 Service Unavailable: /api/v1/orders/list
+2024-04-10 14:36:22 ERROR [api-gateway]     [Router] 503 Service Unavailable: /api/v1/orders/create
+2024-04-10 14:36:22 INFO  [user-service]    [Metrics] Requests: 210/min | DB pool Active: 2/10 | Avg query: 9ms (UserService unaffected)
+2024-04-10 14:36:23 ERROR [api-gateway]     [Router] 503 Service Unavailable: /api/v1/orders/history
+2024-04-10 14:36:24 ERROR [api-gateway]     [AlertManager] PagerDuty incident created: INC-20240410-007 - order-service degraded, 503 errors spiking.
+2024-04-10 14:36:25 INFO  [db-primary-01]   [Postgres] pg_stat_activity: 20 connections from order-service, all blocked on Seq Scan on orders table.
+2024-04-10 14:40:00 INFO  [ops-team]        [Investigation] Engineer assigned to INC-20240410-007. Beginning log triage.
+2024-04-10 14:42:00 INFO  [ops-team]        [Investigation] Checked db-primary-01 pg_stat_statements - top query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | calls: 8420 | mean_time: 890ms
+2024-04-10 14:43:00 INFO  [ops-team]        [Investigation] EXPLAIN ANALYZE output: Seq Scan on orders (cost=0.00..98340 rows=18420) - missing index on customer_tier column
+2024-04-10 14:43:30 INFO  [ops-team]        [Investigation] Checked deploy history - schema migration v2.4.2 ran at 14:30 added customer_tier column. Index creation was DEFERRED (JIRA-4892).
+2024-04-10 14:44:00 INFO  [ops-team]        [RootCause] Confirmed: missing index on orders.customer_tier is causing sequential scans, slow queries, pool exhaustion.
+2024-04-10 14:45:00 INFO  [db-primary-01]   [Postgres] Creating index: CREATE INDEX CONCURRENTLY idx_orders_customer_tier ON orders(customer_tier);
+2024-04-10 14:47:30 INFO  [db-primary-01]   [Postgres] Index idx_orders_customer_tier created successfully. Duration: 2m 30s
+2024-04-10 14:47:35 INFO  [db-primary-01]   [Postgres] Query plan updated. SELECT * FROM orders WHERE customer_tier = $1 now uses Index Scan on idx_orders_customer_tier.
+2024-04-10 14:47:40 INFO  [db-primary-01]   [SlowQuery] Duration: 4ms | Query: SELECT * FROM orders WHERE customer_tier = $1 AND fulfillment_status = $2 | Rows: 18420 (INDEX SCAN)
+2024-04-10 14:47:45 INFO  [order-service]   [DBPool] Pool pressure relieving. Active: 14/20 | Waiting threads: 3
+2024-04-10 14:48:00 INFO  [order-service]   [DBPool] Pool nominal. Active: 6/20 | Waiting threads: 0
+2024-04-10 14:48:05 INFO  [order-service]   [Metrics] Requests: 362/min | DB pool Active: 5/20 | Avg query: 6ms
+2024-04-10 14:48:10 INFO  [api-gateway]     [CircuitBreaker] Circuit breaker CLOSED for order-service. Failure rate dropped to 2%.
+2024-04-10 14:48:11 INFO  [api-gateway]     [Router] All /api/v1/orders/* routes restored. Serving normally.
+2024-04-10 14:48:15 INFO  [api-gateway]     [HealthCheck] All upstream services healthy.
+2024-04-10 14:50:00 INFO  [order-service]   [Metrics] Requests: 365/min | DB pool Active: 4/20 | Avg query: 7ms
+2024-04-10 14:55:00 INFO  [order-service]   [Metrics] Requests: 358/min | DB pool Active: 4/20 | Avg query: 6ms
+2024-04-10 15:00:00 INFO  [order-service]   [Metrics] Requests: 360/min | DB pool Active: 3/20 | Avg query: 7ms
+2024-04-10 15:00:01 INFO  [ops-team]        [PostMortem] Scheduling post-mortem. Root cause confirmed, service stable.
+2024-04-10 15:00:02 INFO  [ops-team]        [JIRA] JIRA-4892 updated: idx_orders_customer_tier created on production. Index creation no longer deferred.
+2024-04-10 15:05:00 INFO  [order-service]   [Metrics] Requests: 362/min | DB pool Active: 3/20 | Avg query: 6ms
+2024-04-10 15:10:00 INFO  [db-primary-01]   [Postgres] Checkpoint complete. Pages written: 1890
+2024-04-10 15:15:00 INFO  [order-service]   [Metrics] Requests: 360/min | DB pool Active: 4/20 | Avg query: 6ms
+2024-04-10 15:20:00 INFO  [api-gateway]     [AlertManager] PagerDuty incident INC-20240410-007 resolved. Duration: 48 minutes.
+2024-04-10 15:25:00 INFO  [order-service]   [Metrics] Requests: 358/min | DB pool Active: 3/20 | Avg query: 7ms
+2024-04-10 15:30:00 INFO  [order-service]   [Metrics] Requests: 360/min | DB pool Active: 4/20 | Avg query: 6ms
+2024-04-10 15:35:00 INFO  [order-service]   [Metrics] Requests: 362/min | DB pool Active: 3/20 | Avg query: 6ms
+2024-04-10 15:40:00 INFO  [api-gateway]     [Router] Total 504s in last hour: 412. Total 503s in last hour: 389.
+2024-04-10 15:45:00 INFO  [order-service]   [Metrics] Requests: 360/min | DB pool Active: 3/20 | Avg query: 6ms
+2024-04-10 15:50:00 INFO  [db-primary-01]   [Postgres] pg_stat_activity: all queries using index scans. No sequential scans on orders.
+2024-04-10 16:00:00 INFO  [api-gateway]     [HealthCheck] All upstream services healthy. System fully stable.
+2024-04-10 16:15:00 INFO  [ops-team]        [PostMortem] Post-mortem draft created. Action items: (1) never defer index creation, (2) add missing-index alert to CI/CD pipeline.
