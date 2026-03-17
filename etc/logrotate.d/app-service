@@ -1,0 +1,9 @@
+/var/log/app/*.log {
+  daily
+  rotate 3
+  compress
+  missingok
+  notifempty
+  size 500M
+  copytruncate
+}
